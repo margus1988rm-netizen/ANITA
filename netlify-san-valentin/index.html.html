@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 Anita 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff4d6d, #ffb3c1);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: white;
+    width: 92%;
+    max-width: 360px;
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    animation: appear 1.2s ease;
+    z-index: 2;
+}
+
+h1 {
+    color: #ff4d6d;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #ff4d6d;
+    font-size: 21px;
+    margin-top: 15px;
+}
+
+p {
+    color: #555;
+    font-size: 16.5px;
+    line-height: 1.6;
+}
+
+.heart {
+    font-size: 55px;
+    animation: pulse 1.2s infinite;
+    margin: 10px 0;
+}
+
+.btn {
+    margin-top: 15px;
+    display: block;
+    padding: 14px;
+    background: #ff4d6d;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #e63950;
+    transform: scale(1.05);
+}
+
+.btn-funny {
+    background: #ff8fa3;
+}
+
+.hidden {
+    display: none;
+}
+
+.countdown {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff4d6d;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Corazones flotantes */
+.floating-heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp linear infinite;
+    opacity: 0.85;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TARJETA PRINCIPAL -->
+<div class="card" id="card">
+    <div class="heart">❤️</div>
+    <h1>ANITA 💕</h1>
+
+    <p>
+        Este sábado <strong>14 de febrero</strong><br>
+        a las <strong>5:00 PM</strong><br>
+        en <strong>nuestro lugar preferido :D</strong>
+    </p>
+
+    <p>
+        No es una cita cualquiera…<br>
+        es una invitación con el corazón.
+    </p>
+
+    <div class="countdown" id="countdown"></div>
+
+    <h2>¿Quieres ser mi San Valentín? 😍</h2>
+
+    <a href="#" class="btn" onclick="almost()">Mmm… convénceme 😏</a>
+    <a href="#" class="btn" onclick="yes()">Sí, obvio 💘</a>
+</div>
+
+<!-- INTERACCIÓN DIVERTIDA -->
+<div class="card hidden" id="funny">
+    <div class="heart">😌</div>
+    <p>
+        Oferta mejorada:
+        <br><br>
+        Abrazos que sanan 🤍<br>
+        Risas sin motivo ✨<br>
+        Besos inesperados 💋
+    </p>
+    <a href="#" class="btn" onclick="yes()">Ahora sí 💖</a>
+</div>
+
+<!-- FINAL -->
+<div class="card hidden" id="final">
+    <div class="heart">💖</div>
+    <h1>Sabía que eras tú 😘</h1>
+    <p>
+        Gracias por elegirnos.<br>
+        Prometo que este 14<br>
+        será solo el inicio.
+    </p>
+    <p><strong>Feliz San Valentín, Anita ❤️</strong></p>
+</div>
+
+<!-- MÚSICA INSTRUMENTAL INDIE ROMÁNTICA (LIBRE DE DERECHOS) -->
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/11/03/audio_1a87d8c63b.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// CONTADOR REGRESIVO
+const targetDate = new Date("February 14, 2026 17:00:00").getTime();
+
+setInterval(() => {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("countdown").innerHTML =
+            `Faltan ${days} días, ${hours}h ${minutes}m ${seconds}s 💕`;
+    }
+}, 1000);
+
+// INTERACCIONES
+function almost() {
+    hideAll();
+    document.getElementById("funny").classList.remove("hidden");
+}
+
+function yes() {
+    hideAll();
+    document.getElementById("final").classList.remove("hidden");
+
+    document.getElementById("music").play();
+
+    for (let i = 0; i < 35; i++) createHeart();
+}
+
+function hideAll() {
+    document.getElementById("card").classList.add("hidden");
+    document.getElementById("funny").classList.add("hidden");
+    document.getElementById("final").classList.add("hidden");
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "floating-heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+}
+</script>
+
+</body>
+</html>
